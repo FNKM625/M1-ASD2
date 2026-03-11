@@ -1,4 +1,5 @@
 let angle = 0;
+let isDarkTheme = true;
 
 function setup() {
     // Tworzymy canvas i przypisujemy go do kontenera z nowego stylu
@@ -10,11 +11,17 @@ function setup() {
     levelSlider.oninput = () => document.getElementById('levelVal').innerText = levelSlider.value;
 
     document.getElementById('resetBtn').onclick = () => angle = 0;
+    document.getElementById('bgToggleBtn').onclick = () => isDarkTheme = !isDarkTheme;
 }
 
 function draw() {
-    background(30);
-    stroke(0, 200, 255);
+    if (isDarkTheme) {
+        background(30);
+        stroke(0, 200, 255);
+    } else {
+        background(245);
+        stroke(0, 50, 150);
+    }
     noFill();
 
     const level = parseInt(document.getElementById('levelSlider').value);
