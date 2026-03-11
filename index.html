@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Projekt M-1: Płatek Kocha</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="controls" id="ui-container">
+        <div class="slider-group">
+            <label>Poziom Rekurencji (Iteracje)</label>
+            <input type="range" id="levelSlider" min="0" max="6" value="1">
+            <span id="levelVal">1</span>
+        </div>
+        <div class="slider-group">
+            <label>Prędkość Obrotu</label>
+            <input type="range" id="speedSlider" min="0" max="50" value="10">
+        </div>
+        <button id="resetBtn" style="padding: 10px 20px;">Reset Animacji</button>
+        <div class="slider-group">
+            <label>FPS</label>
+            <span id="fpsVal">--</span>
+        </div>
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+
+</html>
