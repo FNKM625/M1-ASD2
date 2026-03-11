@@ -1,7 +1,10 @@
 let angle = 0;
 
 function setup() {
-    createCanvas(800, 600);
+    // Tworzymy canvas i przypisujemy go do kontenera z nowego stylu
+    let canvas = createCanvas(800, 500);
+    canvas.parent('canvas-container');
+
     // Inicjalizacja UI zgodnie z wymaganiami [cite: 38]
     const levelSlider = document.getElementById('levelSlider');
     levelSlider.oninput = () => document.getElementById('levelVal').innerText = levelSlider.value;
@@ -36,6 +39,7 @@ function draw() {
 
     // Aktualizacja licznika FPS
     document.getElementById('fpsVal').innerText = frameRate().toFixed(0);
+    document.getElementById('lineCount').innerText = (3 * Math.pow(4, level)).toLocaleString();
 }
 
 // Rekurencyjna funkcja generująca strukturę [cite: 22, 51, 80]

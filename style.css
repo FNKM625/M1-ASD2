@@ -1,30 +1,116 @@
+/* --- STYL BAZOWY (motyw Heap Sort) --- */
 body {
     margin: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: #222;
+    background: #b2dae4;
     color: white;
-    font-family: sans-serif;
+    font-family: "Segoe UI", Arial, sans-serif;
+    min-height: 100vh;
+}
+
+/* --- NAGŁÓWEK I LOGO --- */
+.content-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 900px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #444;
+    padding-bottom: 15px;
+}
+
+h1 {
+    margin: 0;
+    font-size: 2em;
+    color: #1a3753;
+}
+
+.img-logo {
+    max-width: 160px;
+    margin-left: 12px;
+    border-radius: 8px;
+}
+
+/* --- PANELE (Opis, Ustawienia) --- */
+section#description,
+.control-panel,
+section#metrics {
+    background: #333;
+    padding: 10px;
+    margin: 10px auto;
+    max-width: 900px;
+    box-sizing: border-box;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+    color: #ddd;
+}
+
+/* --- KONTENER NA CANVASA --- */
+#canvas-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+    min-height: 400px;
+    max-width: 900px;
+    margin: 10px auto;
+
+    background: #2a2a2a;
+    border: 1px solid #555;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    padding: 10px;
+    box-sizing: border-box;
 }
 
 canvas {
-    border: 1px solid #555;
-    margin-top: 20px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    border: none;
+    box-shadow: none;
 }
 
-.controls {
-    padding: 20px;
-    background: #333;
-    width: 100%;
+/* --- KONTROLKI --- */
+.control-panel {
     display: flex;
-    justify-content: center;
+    flex-wrap: wrap;
     gap: 20px;
+    align-items: center;
+    justify-content: center;
 }
 
-.slider-group {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+label {
+    color: #ccc;
+    font-size: 0.9em;
+    margin-right: 8px;
+}
+
+input[type="range"] {
+    cursor: pointer;
+}
+
+button {
+    background: #444;
+    color: white;
+    border: 1px solid #555;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background 0.2s;
+    border-radius: 4px;
+}
+
+button:hover {
+    background: #555;
+    border-color: #777;
+}
+
+/* --- STOPKA --- */
+footer {
+    margin: 34px 0 10px 0;
+  text-align: center;
+  color: #070a0e;
+  font-size: 0.98em;
 }

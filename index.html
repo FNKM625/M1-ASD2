@@ -3,29 +3,60 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Projekt M-1: Płatek Kocha</title>
+    <title>Wizualizacja i Animacja Struktur Algorytmicznych:  Krzywa Kocha</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <div class="controls" id="ui-container">
-        <div class="slider-group">
-            <label>Poziom Rekurencji (Iteracje)</label>
-            <input type="range" id="levelSlider" min="0" max="6" value="1">
-            <span id="levelVal">1</span>
+    <main>
+        <!-- GÓRA: Tytuł i Logo -->
+        <div class="content-row">
+            <div class="text-block">
+                <h1>Wizualizacja i Animacja Struktur Algorytmicznych: Krzywa Kocha</h1>
+            </div>
+            <!-- Zakładam, że plik UWB.svg jest w folderze, tak jak w Heap Sort -->
+            <img src="UWB.svg" alt="Logo uczelni" class="img-logo" onerror="this.style.display='none'">
         </div>
-        <div class="slider-group">
-            <label>Prędkość Obrotu</label>
-            <input type="range" id="speedSlider" min="0" max="50" value="10">
+
+        <!-- OPIS -->
+        <section id="description">
+            <p>
+                Krzywa Kocha (Płatek Kocha) to jeden z najprostszych fraktali. Powstaje przez dzielenie odcinka na 3 części
+                i zastępowanie środkowej trójkątem równobocznym. Struktura ta ma nieskończoną długość przy skończonym polu powierzchni.
+            </p>
+        </section>
+
+        <!-- PANEL KONTROLNY -->
+        <div class="control-panel">
+            <div>
+                <label>Poziom Rekurencji:</label>
+                <input type="range" id="levelSlider" min="0" max="6" value="1">
+                <span id="levelVal" style="min-width: 20px; display:inline-block;">1</span>
+            </div>
+            
+            <div>
+                <label>Prędkość Obrotu:</label>
+                <input type="range" id="speedSlider" min="0" max="50" value="10">
+            </div>
+
+            <button id="resetBtn">Reset Animacji</button>
         </div>
-        <button id="resetBtn" style="padding: 10px 20px;">Reset Animacji</button>
-        <div class="slider-group">
-            <label>FPS</label>
-            <span id="fpsVal">--</span>
-        </div>
-    </div>
+
+        <!-- MIEJSCE NA CANVAS -->
+        <div id="canvas-container"></div>
+
+        <!-- METRYKI -->
+        <section id="metrics" style="text-align: center;">
+            <span style="margin-right: 20px;">Liczba linii: <span id="lineCount" style="font-family: monospace; font-size: 1.2em;">3</span></span>
+            <span>FPS: <span id="fpsVal" style="font-family: monospace; font-size: 1.2em;">--</span></span>
+        </section>
+
+        <footer>
+            <small>Projekt M-1 ASD2, 2026 &copy;</small>
+        </footer>
+    </main>
 
     <script src="scripts.js"></script>
 </body>
