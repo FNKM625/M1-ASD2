@@ -2,13 +2,14 @@ let angle = 0;
 let isDarkTheme = true;
 
 function setup() {
-    // Tworzymy canvas i przypisujemy go do kontenera z nowego stylu
     let canvas = createCanvas(800, 500);
     canvas.parent('canvas-container');
 
-    // Inicjalizacja UI zgodnie z wymaganiami [cite: 38]
     const levelSlider = document.getElementById('levelSlider');
     levelSlider.oninput = () => document.getElementById('levelVal').innerText = levelSlider.value;
+
+    const speedSlider = document.getElementById('speedSlider');
+    speedSlider.oninput = () => document.getElementById('speedVal').innerText = speedSlider.value;
 
     document.getElementById('resetBtn').onclick = () => angle = 0;
     document.getElementById('bgToggleBtn').onclick = () => isDarkTheme = !isDarkTheme;
@@ -25,7 +26,7 @@ function draw() {
     noFill();
 
     const level = parseInt(document.getElementById('levelSlider').value);
-    const speed = parseInt(document.getElementById('speedSlider').value) / 1000;
+    const speed = parseInt(document.getElementById('speedSlider').value) / 100;
 
     // Centrowanie i animacja obrotu [cite: 33, 34]
     translate(width / 2, height / 2);

@@ -1,4 +1,4 @@
-/* --- STYL BAZOWY (motyw Heap Sort) --- */
+/* --- STYL BAZOWY --- */
 body {
     margin: 0;
     display: flex;
@@ -8,6 +8,7 @@ body {
     color: white;
     font-family: "Segoe UI", Arial, sans-serif;
     min-height: 100vh;
+    overflow-x: hidden;
 }
 
 /* --- NAGŁÓWEK I LOGO --- */
@@ -27,6 +28,7 @@ h1 {
     margin: 0;
     font-size: 2em;
     color: #1a3753;
+    line-height: 1.2;
 }
 
 .img-logo {
@@ -35,60 +37,82 @@ h1 {
     border-radius: 8px;
 }
 
-/* --- PANELE (Opis, Ustawienia) --- */
+/* --- PANELE --- */
 section#description,
 .control-panel,
 section#metrics {
     background: #333;
-    padding: 10px;
+    padding: 15px;
     margin: 10px auto;
+    width: 95%;
     max-width: 900px;
     box-sizing: border-box;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    border-radius: 4px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
     color: #ddd;
 }
 
 /* --- KONTENER NA CANVASA --- */
 #canvas-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: auto;
-    min-height: 400px;
+    width: 95%;
     max-width: 900px;
     margin: 10px auto;
-
     background: #2a2a2a;
     border: 1px solid #555;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
     overflow: hidden;
-    padding: 10px;
-    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
 }
 
 canvas {
-    border: none;
-    box-shadow: none;
+    max-width: 100% !important;
+    height: auto !important;
+    display: block;
 }
 
-/* --- KONTROLKI --- */
+/* --- PANEL STEROWANIA --- */
 .control-panel {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 15px;
     align-items: center;
     justify-content: center;
+    padding: 20px;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 140px;
+    gap: 5px;
+}
+
+.control-panel > div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 label {
+    white-space: nowrap;
     color: #ccc;
-    font-size: 0.9em;
-    margin-right: 8px;
+    font-size: 0.95em;
+}
+
+#levelVal,
+#speedVal {
+    font-weight: bold;
+    color: #00c8ff;
+    min-width: 1.2em;
+    text-align: center;
 }
 
 input[type="range"] {
+    margin: 0;
     cursor: pointer;
+    vertical-align: middle;
 }
 
 button {
@@ -107,10 +131,48 @@ button:hover {
     border-color: #777;
 }
 
+/* --- METRYKI --- */
+#metrics {
+    display: flex;
+    justify-content: space-around;
+    font-size: 0.9em;
+}
+
 /* --- STOPKA --- */
 footer {
     margin: 34px 0 10px 0;
   text-align: center;
   color: #070a0e;
   font-size: 0.98em;
+}
+
+/* --- STYLE DLA URZĄDZEŃ MOBILNYCH --- */
+@media (max-width: 600px) {
+    .content-row {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .img-logo {
+        margin: 15px 0 0 0;
+        max-width: 100px;
+    }
+
+    h1 {
+        font-size: 1.4em;
+    }
+
+    .control-panel {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    button {
+        max-width: 100%;
+    }
+
+    #metrics {
+        flex-direction: column;
+        gap: 10px;
+    }
 }
