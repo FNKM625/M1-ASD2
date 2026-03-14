@@ -1,18 +1,37 @@
+// Deklaracje zmiennych globalnych
 let angle = 0;
 let isDarkTheme = true;
+let drawType = 2;
+
+// Elementy DOM (pobierane globalnie, ale używane po załadowaniu)
+let resetBtn, bgToggleBtn, startStopBtn, drawModeBtn;
+let levelSlider, speedSlider, speedVal, fpsVal, lineCount;
 
 function setup() {
     let canvas = createCanvas(800, 500);
     canvas.parent('canvas-container');
 
-    const levelSlider = document.getElementById('levelSlider');
+    // Inicjalizacja elementów DOM
+    resetBtn = document.getElementById('resetBtn');
+    bgToggleBtn = document.getElementById('bgToggleBtn');
+    startStopBtn = document.getElementById('startStopBtn');
+    drawModeBtn = document.getElementById('drawModeBtn');
+    levelSlider = document.getElementById('levelSlider');
+    speedSlider = document.getElementById('speedSlider');
+    speedVal = document.getElementById('speedVal');
+    fpsVal = document.getElementById('fpsVal');
+    lineCount = document.getElementById('lineCount');
+
+    // Obsługa zdarzeń (Interakcja - Punkt 2.4) [cite: 38, 40]
+    resetBtn.onclick = () => angle = 0;
+    bgToggleBtn.onclick = () => isDarkTheme = !isDarkTheme;
+    startStopBtn.onclick = startStopAnimation;
+    drawModeBtn.onclick = toggleDrawMode;
+
+    // Aktualizacja etykiet suwaków
     levelSlider.oninput = () => document.getElementById('levelVal').innerText = levelSlider.value;
-
-    const speedSlider = document.getElementById('speedSlider');
-    speedSlider.oninput = () => document.getElementById('speedVal').innerText = speedSlider.value;
-
-    document.getElementById('resetBtn').onclick = () => angle = 0;
-    document.getElementById('bgToggleBtn').onclick = () => isDarkTheme = !isDarkTheme;
+    speedVal.innerText = (speedSlider.value / 10).toFixed(1);
+    speedSlider.oninput = () => speedVal.innerText = (speedSlider.value / 10).toFixed(1);
 }
 
 function draw() {
@@ -25,13 +44,41 @@ function draw() {
     }
     noFill();
 
-    const level = parseInt(document.getElementById('levelSlider').value);
-    const speed = parseInt(document.getElementById('speedSlider').value) / 100;
+    const level = parseInt(levelSlider.value);
+
+    if (drawType === 1) {
+        poruszanie(level);
+    } else if (drawType === 2) {
+        statycznyPlatek(level);
+    }
+
+    if (frameCount % 30 === 0) {
+        fpsVal.innerText = frameRate().toFixed(0);
+        let count = (drawType === 1) ? 3 * Math.pow(4, level) : Math.pow(4, level);
+        lineCount.innerText = count.toLocaleString();
+    }
+}
+
+function poruszanie(level) {
+    const speed = parseFloat(speedSlider.value) / 1000;
 
     translate(width / 2, height / 2);
     rotate(angle);
     angle += speed;
 
+    rysujPelnyPlatek(level);
+}
+
+function statycznyPlatek(level) {
+    translate(width / 2, height / 2);
+    
+    let p1 = createVector(-300, 50);
+    let p2 = createVector(300, 50);
+    
+    drawKochCurve(p2, p1, level);
+}
+
+function rysujPelnyPlatek(level) {
     let len = 400;
     let h = len * Math.sqrt(3) / 2;
     let p1 = createVector(-len / 2, h / 3);
@@ -41,15 +88,6 @@ function draw() {
     drawKochCurve(p1, p2, level);
     drawKochCurve(p2, p3, level);
     drawKochCurve(p3, p1, level);
-
-    if (frameCount % 30 === 0) {
-        document.getElementById('fpsVal').innerText = frameRate().toFixed(0);
-        document.getElementById('lineCount').innerText = (3 * Math.pow(4, level)).toLocaleString();
-        
-        if(document.getElementById('speedVal')) {
-            document.getElementById('speedVal').innerText = document.getElementById('speedSlider').value;
-        }
-    }
 }
 
 function drawKochCurve(a, b, level) {
@@ -59,8 +97,8 @@ function drawKochCurve(a, b, level) {
         let v = p5.Vector.sub(b, a);
         v.div(3);
 
-        let p1 = p5.Vector.add(a, v); // 1/3 długości
-        let p3 = p5.Vector.sub(b, v); // 2/3 długości
+        let p1 = p5.Vector.add(a, v);
+        let p3 = p5.Vector.sub(b, v);
 
         v.rotate(PI / 3);
         let p2 = p5.Vector.add(p1, v);
@@ -70,4 +108,19 @@ function drawKochCurve(a, b, level) {
         drawKochCurve(p2, p3, level - 1);
         drawKochCurve(p3, b, level - 1);
     }
+}
+
+function startStopAnimation() {
+    if (isLooping()) {
+        noLoop();
+        startStopBtn.innerText = 'Start';
+    } else {
+        loop();
+        startStopBtn.innerText = 'Stop';
+    }
+}
+
+function toggleDrawMode() {
+    drawType = (drawType === 1) ? 2 : 1;
+    drawModeBtn.innerText = (drawType === 1) ? 'Tryb: Obrót' : 'Tryb: Statyczny';
 }
