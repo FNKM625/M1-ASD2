@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Wizualizacja i Animacja Struktur Algorytmicznych:  Krzywa Kocha</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main>
+        <!-- GÓRA: -->
+        <div class="content-row">
+            <div class="text-block">
+                <h1>Wizualizacja i Animacja Struktur Algorytmicznych: Krzywa Kocha</h1>
+            </div>
+            <img src="UWB.svg" alt="Logo uczelni" class="img-logo" onerror="this.style.display='none'">
+        </div>
+
+        <!-- OPIS -->
+        <section id="description">
+            <p>
+                Krzywa Kocha (Płatek Kocha) to jeden z najprostszych fraktali. Powstaje przez dzielenie odcinka na 3 części
+                i zastępowanie środkowej trójkątem równobocznym. Struktura ta ma nieskończoną długość przy skończonym polu powierzchni.
+            </p>
+        </section>
+
+        <!-- PANEL KONTROLNY -->
+        <div class="control-panel">
+            <div class="control-row">
+                <div>
+                    <label>Poziom Rekurencji:</label>
+                    <input type="range" id="levelSlider" min="0" max="6" value="1">
+                    <span id="levelVal" style="min-width: 20px; display:inline-block;">1</span>
+                </div>
+                <div id="rotationGroup">
+                    <label>Prędkość Obrotu:</label>
+                    <input type="range" id="speedSlider" min="0" max="50" value="10">
+                    <span id="speedVal" style="min-width: 20px; display:inline-block;">1.0</span>
+                </div>
+            </div>
+            <div class="control-row">
+                <button id="drawModeBtn">Tryb: Obrót (Płatek)</button>
+                <button id="bgToggleBtn">Zmień Tło</button>
+                <button id="animateLineBtn" class="hidden">Animuj Krok</button>
+                <button id="resetBtn">Reset Animacji</button>
+                <button id="startStopBtn">Stop</button>
+            </div>
+        </div>
+
+        <!-- MIEJSCE NA CANVAS -->
+        <div id="canvas-container"></div>
+
+        <!-- METRYKI -->
+        <section id="metrics">
+            <span>Liczba linii: <span id="lineCount">3</span></span>
+            <span>FPS: <span id="fpsVal">--</span></span>
+        </section>
+
+        <!-- STOPKA -->
+        <footer>
+            <small>UWB, Projekt M-1 ASD2, 2026 &copy;</small>
+        </footer>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <script src="scripts/math.js"></script>
+    <script src="scripts/ui.js"></script>
+    <script src="scripts/main.js"></script>
+</body>
+
+</html>

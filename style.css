@@ -1,0 +1,198 @@
+/* --- STYL BAZOWY --- */
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #b2dae4;
+    color: white;
+    font-family: "Segoe UI", Arial, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* --- NAGŁÓWEK I LOGO --- */
+.content-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 900px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #444;
+    padding-bottom: 15px;
+}
+
+h1 {
+    margin: 0;
+    font-size: 2em;
+    color: #1a3753;
+    line-height: 1.2;
+}
+
+.img-logo {
+    max-width: 160px;
+    margin-left: 12px;
+    border-radius: 8px;
+}
+
+/* --- PANELE --- */
+section#description,
+.control-panel,
+section#metrics {
+    background: #333;
+    padding: 15px;
+    margin: 10px auto;
+    width: 95%;
+    max-width: 900px;
+    box-sizing: border-box;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    color: #ddd;
+}
+
+/* --- KONTENER NA CANVASA --- */
+#canvas-container {
+    width: 95%;
+    max-width: 900px;
+    margin: 10px auto;
+    background: #2a2a2a;
+    border: 1px solid #555;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+}
+
+canvas {
+    max-width: 100% !important;
+    height: auto !important;
+    display: block;
+}
+
+/* --- PANEL STEROWANIA --- */
+.control-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.control-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 140px;
+    gap: 5px;
+}
+
+.control-row > div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+label {
+    white-space: nowrap;
+    color: #ccc;
+    font-size: 0.95em;
+}
+
+#levelVal,
+#speedVal {
+    font-weight: bold;
+    color: #00c8ff;
+    min-width: 1.2em;
+    text-align: center;
+}
+
+input[type="range"] {
+    margin: 0;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+button {
+    background: #444;
+    color: white;
+    border: 1px solid #555;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background 0.2s;
+    border-radius: 4px;
+}
+
+button:hover {
+    background: #555;
+    border-color: #777;
+}
+
+#animateLineBtn.animating {
+    background-color: #ff9800;
+    color: white;
+    opacity: 0.8;
+    transition: background-color 0.3s ease;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* --- METRYKI --- */
+#metrics {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    font-size: 0.9em;
+}
+
+#lineCount, #fpsVal {
+    font-family: monospace;
+    font-size: 1.2em;
+}
+
+/* --- STOPKA --- */
+footer {
+    margin: 34px 0 10px 0;
+  text-align: center;
+  color: #070a0e;
+  font-size: 0.98em;
+}
+
+/* --- STYLE DLA URZĄDZEŃ MOBILNYCH --- */
+@media (max-width: 600px) {
+    .content-row {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .img-logo {
+        margin: 15px 0 0 0;
+        max-width: 100px;
+    }
+
+    h1 {
+        font-size: 1.4em;
+    }
+
+    .control-panel {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    button {
+        max-width: 100%;
+    }
+}
