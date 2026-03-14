@@ -3,9 +3,14 @@ let angle = 0;
 let isDarkTheme = true;
 let drawType = 2;
 
+let kochAnimationStep = 0; // 0: Start, 1: Fade, 2: Triangle, 3: End
+let animationStartTime = 0;
+const animationDuration = 60;
+
 // Elementy DOM (pobierane globalnie, ale używane po załadowaniu)
 let resetBtn, bgToggleBtn, startStopBtn, drawModeBtn;
 let levelSlider, speedSlider, speedVal, fpsVal, lineCount;
+let speedControlGroup;
 
 function setup() {
     let canvas = createCanvas(800, 500);
@@ -21,6 +26,7 @@ function setup() {
     speedVal = document.getElementById('speedVal');
     fpsVal = document.getElementById('fpsVal');
     lineCount = document.getElementById('lineCount');
+    speedControlGroup = document.getElementById('speedControlGroup');
 
     // Obsługa zdarzeń (Interakcja - Punkt 2.4) [cite: 38, 40]
     resetBtn.onclick = () => angle = 0;
@@ -35,6 +41,7 @@ function setup() {
 }
 
 function draw() {
+    // Motyw kolorystyczny
     if (isDarkTheme) {
         background(30);
         stroke(0, 200, 255);
@@ -46,15 +53,20 @@ function draw() {
 
     const level = parseInt(levelSlider.value);
 
+    // Wybór trybu rysowania
     if (drawType === 1) {
         poruszanie(level);
     } else if (drawType === 2) {
-        statycznyPlatek(level);
+        statycznyPlatek(); // Teraz bez parametru level
     }
 
+    // Metryki wydajności odświeżane co 30 klatek
     if (frameCount % 30 === 0) {
         fpsVal.innerText = frameRate().toFixed(0);
-        let count = (drawType === 1) ? 3 * Math.pow(4, level) : Math.pow(4, level);
+        
+        // Obliczanie liczby segmentów: Płatek vs Linia (zaokrąglamy dla metryki)
+        let count = (drawType === 1) ? 3 * Math.pow(4, level) : 1; 
+        if (kochAnimationStep >= 2) count = 4;
         lineCount.innerText = count.toLocaleString();
     }
 }
@@ -69,13 +81,61 @@ function poruszanie(level) {
     rysujPelnyPlatek(level);
 }
 
-function statycznyPlatek(level) {
+function statycznyPlatek() {
     translate(width / 2, height / 2);
     
+    // Definiujemy punkty dla pojedynczej, wyśrodkowanej linii
     let p1 = createVector(-300, 50);
     let p2 = createVector(300, 50);
     
-    drawKochCurve(p2, p1, level);
+    // Obliczamy punkty podziału i szczyt
+    let v = p5.Vector.sub(p2, p1);
+    v.div(3);
+    let p1_podzial = p5.Vector.add(p1, v);
+    let p3_podzial = p5.Vector.sub(p2, v);
+    v.rotate(-PI / 3); 
+    let p2_szczyt = p5.Vector.add(p1_podzial, v);
+
+    // Zawsze rysujemy dwa końcowe odcinki (one nie znikają)
+    line(p1.x, p1.y, p1_podzial.x, p1_podzial.y);
+    line(p3_podzial.x, p3_podzial.y, p2.x, p2.y);
+
+    // Logika animacji
+    let elapsed = frameCount - animationStartTime;
+
+    if (kochAnimationStep === 1) { // Etap Fading (Zniknie)
+        let alpha = map(elapsed, 0, animationDuration, 255, 0);
+        stroke(red(strokeColor()), green(strokeColor()), blue(strokeColor()), alpha);
+        line(p1_podzial.x, p1_podzial.y, p3_podzial.x, p3_podzial.y);
+
+        if (elapsed >= animationDuration) {
+            kochAnimationStep = 2;
+            animationStartTime = frameCount;
+        }
+    } else if (kochAnimationStep === 2) { // Etap Triangle (Pojawi się)
+        let alpha = map(elapsed, 0, animationDuration, 0, 255);
+        stroke(red(strokeColor()), green(strokeColor()), blue(strokeColor()), alpha);
+        line(p1_podzial.x, p1_podzial.y, p2_szczyt.x, p2_szczyt.y);
+        line(p2_szczyt.x, p2_szczyt.y, p3_podzial.x, p3_podzial.y);
+
+        if (elapsed >= animationDuration) {
+            kochAnimationStep = 3;
+        }
+    } else if (kochAnimationStep === 3) { // Etap End (Koniec)
+        // Rysujemy trójkąt z pełną widocznością
+        line(p1_podzial.x, p1_podzial.y, p2_szczyt.x, p2_szczyt.y);
+        line(p2_szczyt.x, p2_szczyt.y, p3_podzial.x, p3_podzial.y);
+    } else { // Stan Startu
+        // Rysujemy pełną linię
+        line(p1_podzial.x, p1_podzial.y, p3_podzial.x, p3_podzial.y);
+    }
+    
+    // Resetujemy kolor, aby nie wpływać na metryki
+    stroke(strokeColor());
+}
+
+function strokeColor() {
+    return isDarkTheme ? color(0, 200, 255) : color(0, 50, 150);
 }
 
 function rysujPelnyPlatek(level) {
@@ -122,5 +182,15 @@ function startStopAnimation() {
 
 function toggleDrawMode() {
     drawType = (drawType === 1) ? 2 : 1;
-    drawModeBtn.innerText = (drawType === 1) ? 'Tryb: Obrót' : 'Tryb: Statyczny';
+    if (drawType === 1) {
+        drawModeBtn.innerText = 'Tryb: Obrót (Płatek)';
+        speedControlGroup.classList.remove('hidden');
+        resetBtn.classList.remove('hidden');
+        startStopBtn.classList.remove('hidden');
+    } else {
+        drawModeBtn.innerText = 'Tryb: Statyczny (Linia)';
+        speedControlGroup.classList.add('hidden');
+        resetBtn.classList.add('hidden');
+        startStopBtn.classList.add('hidden');
+    }
 }

@@ -74,11 +74,19 @@ canvas {
 /* --- PANEL STEROWANIA --- */
 .control-panel {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 15px;
     align-items: center;
     justify-content: center;
     padding: 20px;
+}
+
+.control-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
 }
 
 .control-group {
@@ -89,7 +97,7 @@ canvas {
     gap: 5px;
 }
 
-.control-panel > div {
+.control-row > div {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -131,11 +139,28 @@ button:hover {
     border-color: #777;
 }
 
+#animateLineBtn.animating {
+    background-color: #ff9800;
+    color: white;
+    opacity: 0.8;
+    transition: background-color 0.3s ease;
+}
+
+.hidden {
+    display: none !important;
+}
+
 /* --- METRYKI --- */
 #metrics {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    gap: 30px;
     font-size: 0.9em;
+}
+
+#lineCount, #fpsVal {
+    font-family: monospace;
+    font-size: 1.2em;
 }
 
 /* --- STOPKA --- */
@@ -169,10 +194,5 @@ footer {
 
     button {
         max-width: 100%;
-    }
-
-    #metrics {
-        flex-direction: column;
-        gap: 10px;
     }
 }
