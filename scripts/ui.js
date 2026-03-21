@@ -19,6 +19,7 @@ function initUI() {
     animateLineBtn.onclick = animateLineFunc;
 
     levelSlider.oninput = () => document.getElementById('levelVal').innerText = levelSlider.value;
+    speedSlider.oninput = () => speedVal.innerText = (speedSlider.value / 10).toFixed(1);
 }
 
 function startStopFunc() {
@@ -35,6 +36,7 @@ function startStopFunc() {
 function drawModeFunc() {
     drawType = (drawType === 1) ? 2 : 1;
     let isRotation = (drawType === 1);
+    lineReload = !lineReload;
     drawModeBtn.innerText = isRotation ? 'Tryb: Obrót (Płatek)' : 'Tryb: Statyczny (Linia)';
 
     [rotationGroup, resetBtn, startStopBtn].forEach(el => {
