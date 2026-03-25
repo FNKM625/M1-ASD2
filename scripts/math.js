@@ -1,20 +1,19 @@
 // math.js
 function drawKoch(level, drawType) {
+    translate(width / 2, height / 2);
     if (drawType === 1) {
         const speed = parseFloat(speedSlider.value) / 1000;
-        translate(width / 2, height / 2);
         rotate(angle);
         angle += speed;
-        rysujPelnyPlatek(level);
+        drawKochFull(level);
     } else {
-        translate(width / 2, height / 2);
         let p1 = createVector(-300, 50);
         let p2 = createVector(300, 50);
-        statycznyPlatekLogic(p1, p2, currentLevel);
+        drawKochStatic(p1, p2, currentLevel);
     }
 }
 
-function rysujPelnyPlatek(level) {
+function drawKochFull(level) {
     let len = 400;
     let h = len * Math.sqrt(3) / 2;
     let p1 = createVector(-len / 2, h / 3);
@@ -30,12 +29,7 @@ function drawKochCurve(a, b, level) {
     if (level === 0) {
         line(a.x, a.y, b.x, b.y);
     } else {
-        let v = p5.Vector.sub(b, a);
-        v.div(3);
-        let p1 = p5.Vector.add(a, v);
-        let p3 = p5.Vector.sub(b, v);
-        v.rotate(PI / 3);
-        let p2 = p5.Vector.add(p1, v);
+        let [p1, p2, p3] = calculatePoints(a, b, 1);
 
         drawKochCurve(a, p1, level - 1);
         drawKochCurve(p1, p2, level - 1);
@@ -44,7 +38,7 @@ function drawKochCurve(a, b, level) {
     }
 }
 
-function statycznyPlatekLogic(a, b, level) {
+function drawKochStatic(a, b, level) {
     if (level === 0) {
         if (!isStepAnimating) {
             line(a.x, a.y, b.x, b.y);
@@ -52,12 +46,7 @@ function statycznyPlatekLogic(a, b, level) {
         }
     }
 
-    let v = p5.Vector.sub(b, a);
-    v.div(3);
-    let p1 = p5.Vector.add(a, v);
-    let p3 = p5.Vector.sub(b, v);
-    v.rotate(-PI / 3);
-    let p2 = p5.Vector.add(p1, v);
+    let [p1, p2, p3] = calculatePoints(a, b, -1);
 
     if (level === 0 && isStepAnimating) {
         let c = isDarkTheme ? color(0, 200, 255) : color(0, 50, 150);
@@ -77,9 +66,20 @@ function statycznyPlatekLogic(a, b, level) {
             line(p2.x, p2.y, p3.x, p3.y);
         }
     } else if (level > 0) {
-        statycznyPlatekLogic(a, p1, level - 1);
-        statycznyPlatekLogic(p1, p2, level - 1);
-        statycznyPlatekLogic(p2, p3, level - 1);
-        statycznyPlatekLogic(p3, b, level - 1);
+        drawKochStatic(a, p1, level - 1);
+        drawKochStatic(p1, p2, level - 1);
+        drawKochStatic(p2, p3, level - 1);
+        drawKochStatic(p3, b, level - 1);
     }
+}
+
+function calculatePoints(a, b, modifier) {
+    let v = p5.Vector.sub(b, a);
+    v.div(3);
+    let p1 = p5.Vector.add(a, v);
+    let p3 = p5.Vector.sub(b, v);
+    v.rotate(modifier * PI / 3);
+    let p2 = p5.Vector.add(p1, v);
+
+    return [p1, p2, p3];
 }
