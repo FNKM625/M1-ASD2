@@ -3,6 +3,8 @@
 ![Wersja](https://img.shields.io/badge/version-1.0-blue)
 ![Technologia](https://img.shields.io/badge/p5.js-Library-ED225D)
 
+[Demo:](https://fnkm625.github.io/M1-ASD2)
+
 ## 📖 O projekcie
 Projekt zrealizowany w ramach przedmiotu Algorytmy i Struktury Danych 2 (ASD2) na Uniwersytecie w Białymstoku w Wilnie (UwB). 
 Jest to interaktywna aplikacja internetowa służąca do wizualizacji i animacji fraktala matematycznego znanego jako **Krzywa/Płatek Kocha**.
